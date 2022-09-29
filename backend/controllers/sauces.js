@@ -139,6 +139,7 @@ const product = new Product({
 // enregistrement du produit
 product
 .save()
+
 .then((message) => res.status(201).send({message}))
 // utilise .catch pour me renvoyer une erreur en cas de problème
 .catch((err) => res.status(500).send({message: err }))
