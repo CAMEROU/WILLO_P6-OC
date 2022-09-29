@@ -1,5 +1,5 @@
- //Base de donnee
- const mongoose = require("mongoose")
+ // data base
+const mongoose = require("mongoose")
 // This makes error handing much easier, since you will get a Mongoose validator error when you 
 // attempt to violate a unique constraint,
 const uniquevalidator = require("mongoose-unique-validator")
@@ -27,3 +27,5 @@ password: {type:String, require:true}
 userSchema.plugin(uniquevalidator)
 const User = mongoose.model("User", userSchema)
 module.exports = {mongoose, User}
+
+//L02imHztzn2vGnWo
