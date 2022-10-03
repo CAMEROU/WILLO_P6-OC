@@ -9,7 +9,7 @@ const password = process.env.MDB_PASSWORD
 const username = process.env.MDB_USER
 // mongo url
 //const uri= `mongodb+srv://${username}:${password}@cluster0.8zj42gk.mongodb.net/?retryWrites=true&w=majority`
-const uri= `mongodb+srv://${username}:${password}@cluster0.yzlmjpv.mongodb.net/?retryWrites=true&w=majority`
+const uri= `mongodb+srv://${username}:${password}@cluster0.8buuxyq.mongodb.net/?retryWrites=true&w=majority`
 mongoose
 .connect(uri)
 // use then with console.log to show that mongoose is connect
