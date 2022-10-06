@@ -1,4 +1,4 @@
- // data base
+ // importation du package de mongoose
 const mongoose = require("mongoose")
 // This makes error handing much easier, since you will get a Mongoose validator error when you 
 // attempt to violate a unique constraint,

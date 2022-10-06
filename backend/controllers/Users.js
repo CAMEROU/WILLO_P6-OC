@@ -1,7 +1,9 @@
 //utilisons notre modèle Mongoose pour vérifier que l'e-mail entré par
 // l'utilisateur correspond à un utilisateur existant de la base de données
 const {User} = require("../mongo")
+//Importation du package de bcrypt
 const bcrypt = require("bcrypt")
+// Importation du package de jsonwebtoken
 const jwt = require("jsonwebtoken")
 
 // function createUser()
@@ -53,7 +55,7 @@ res.status(200).send({ userId: user?._id, token: token })
 //Fonction createToken(email) 
 function createTokent(email){
 const jwtPassword = process.env.JWT_PASSWORD
-return jwt.sign({email: email}, jwtPassword, {expiresIn: "100h"})
+return jwt.sign({email: email}, jwtPassword, {expiresIn: "12h"})
 }
 // Importation des routes: createUser et LogUser
 module.exports = {createUser, logUser }

@@ -1,4 +1,4 @@
-//
+//IMPORTATION DU JWT
 const jwt = require("jsonwebtoken")
 function tiketUser(req, res, next){  
 //Nous extrayons le token du header Authorization de la requête entrante.
