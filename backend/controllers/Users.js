@@ -37,7 +37,7 @@ const password = req.body.password
 const user = await User.findOne({email: email })
 //utilisons la fonction compare de bcrypt pour comparer le mot de 
 //passe entré par l'utilisateur avec le hash enregistré dans la base de données
-const isPasswordOK =  bcrypt.compare(password, user.password)
+const isPasswordOK =await bcrypt.compare(password, user.password)
 if (!isPasswordOK){
 //Dans le cas contraire, nous renvoyons une erreur403 Pas enregistrer
 res.status(403).send({ message: "pas enregistre" })
@@ -49,7 +49,7 @@ const token = createTokent(email)
 // Dans ce cas, nous renvoyons une réponse 200 contenant l'ID utilisateur et un token
 res.status(200).send({ userId: user?._id, token: token })
 }catch (err) {
-    console.error(err)
+   console.error(err)
     res.status(500).send({message: "erreur interne"})
 }}
 //Fonction createToken(email) 
