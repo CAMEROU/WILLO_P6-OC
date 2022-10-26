@@ -2,9 +2,25 @@
 API du projet P6 openclassrooms */
 
 /*
-nodemon app.js mis pour le demarage du backend
+pour l'installation des # packages de node.js il faut :
+
+npm i ou install 
+
+/*
+pour faire tourner le backend on tape:
+
+nodemon app.js
 */
 
 /* lien du site
 http://localhost:4200/sauces
+*/
+
+/*
+environnement des donnees clef du site
+
+MDB_PASSWORD=xxxxxxxxxxxxxxxx
+MDB_USER=yyyyyyyyyyyyyyyyyyy
+JWT_PASSWORD=uuuuuuuuuuuuuuu
+
 */
