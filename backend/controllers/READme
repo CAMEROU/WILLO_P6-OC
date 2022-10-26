@@ -1,0 +1,10 @@
+/* 
+API du projet P6 openclassrooms */
+
+/*
+nodemon app.js mis pour le demarage du backend
+*/
+
+/* lien du site
+http://localhost:4200/sauces
+*/

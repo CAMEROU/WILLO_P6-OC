@@ -16,77 +16,65 @@ userId : String ,
  usersDisliked : [ "" ]
 })
 const Product = mongoose.model("Product", productSchema)
-// fonction de validation de token dans getSauces()
 function getSauces(req, res) {
     Product.find({})
     .then(products => res.send(products))
-// renvoie moi le status(500) au cas ou le token rencontre des erreurs avec .catch(err)    
     .catch(error => res.status(500).send(error))
 }
-//***************************************************************************** */
+
 function getSauce(req, res){
 // get SauceById va me recuperé l'id (req.params)
 const {id} = req.params
-// Utilisons  product pour se rendre dans la base de donnée
 return Product.findById(id) 
 }
-//**************************************************************************************** */
-// fonction getSauceById
-//******************************************************************************************************** */
+
 function getSauceById(req, res){
 // get SauceById va me recuperé l'id (req.params)
-getSauce(req, res)
-.then((product) => sendClientResponse(product, res))
-.catch((err)=> res.status(500).send(err))
+      getSauce(req, res)
+     .then((product) => sendClientResponse(product, res))
+     .catch((err)=> res.status(500).send(err))
 }
-//***************************************************************************************************** */
-// function deleteSauce()
+
 function deleteSauce(req,res){
-  const {id} = req.params
+     const {id} = req.params
 // utilise la methode .findByIdAndDelete(id) pour supprimer les produits envoyer a mongoose 
-Product.findByIdAndDelete(id)
-//.then(deleteImage)
+     Product.findByIdAndDelete(id)
 // Evoie du message de succes au serveur web(client
-.then((product) => sendClientResponse(product, res))
-.then((data)=> deleteImage(data))
-.then((res)=> console.log("Suprimer", res))
+     .then((product) => sendClientResponse(product, res))
+     .then((data)=> deleteImage(data))
+     .then((res)=> console.log("Suprimer", res))
 // en cas d'echec, envoie moi un message d'erreur
-.catch((err) => res.status(500).send({message: err}))
+    .catch((err) => res.status(500).send({message: err}))
 }
-//**************************************************************************************************** */
-// function modifySauce
+
 function modifySauce(req, res){
 // Params de recuperation des donnees de la request
-const {
-    params: {id}
-} = req 
-// consologue du body et id
+     const {
+     params: {id}
+     } = req 
+
 console.log("req.file", req.file)
 // regarde si il y a un req.file
 const hasNewImage = req.file != null
-// Fabrique moi un payload
 const payload = makePayload(hasNewImage, req)
 
 // Va update la base de donnee
 Product.findByIdAndUpdate(id, payload)
 // Verifie moi s'il y'a une reponse
-.then((dbResponse) => sendClientResponse(dbResponse, res))
+    .then((dbResponse) => sendClientResponse(dbResponse, res))
 // Supprime l'image du local
-.then((product)=> deleteImage(product))
-.then((res)=> console.log("Suprimer", res))
-.catch((err) => console.error("Problem updating", err))
+    .then((product)=> deleteImage(product))
+    .then((res)=> console.log("Suprimer", res))
+    .catch((err) => console.error("Problem updating", err))
 }
-//********************************************************************************************* */
-// function delete locale image
+
 function deleteImage(product){
-if (product == null) return 
-console.log("Suppression de l'image", product)
-const imageToDelete = product.imageUrl.split("/").at(-1)
- // Retourne la promess
-return unlink("images/" + imageToDelete)
+     if (product == null) return 
+     console.log("Suppression de l'image", product)
+     const imageToDelete = product.imageUrl.split("/").at(-1)
+    return unlink("images/" + imageToDelete)
 }
-////**************************************************************************************************** */
-// fonction makePayload(), s'il y a pas de nouvelle image renvoie le req.body
+
 function makePayload(hasNewImage, req){
     console.log("hasNewImage:",  hasNewImage)
 // S'il y'a pas de nouvelle image retourne req.body
@@ -99,29 +87,25 @@ function makePayload(hasNewImage, req){
 }
 // function sendClientResponse() fonction qui renvoie une reponse au client en fonction du resultat obtenu de la base de donnee
 function sendClientResponse(product, res){
-if(product == null) {
-console.log("Nothing to update")
-return  res.status(404).send({message: "Objet introuvable dans la base de donnee"})
+    if(product == null) {
+    console.log("Nothing to update")
+    return  res.status(404).send({message: "Objet introuvable dans la base de donnee"})
 }
-console.log("Toute est mise en place", product)
-return Promise.resolve(res.status(200).send(product)).then(()=> product
+    console.log("Toute est mise en place", product)
+    return Promise.resolve(res.status(200).send(product)).then(()=> product
 )}
-//********************************************************************************** */
-// function makeImage
-//*********************************************************************************** */
-function makeImageUrl(req, filename){
+
+function makeImageUrl(req, filename){  
     return req.protocol + "://"  + req.get("host")  + "/images/" + filename
 }
-//function createSauces(req, res){
-//const sauce = JSON.parse(req.body.sauce)
+
 function createSauces(req, res){
     const { body, file } = req
     //console.log({ file })
     const { filename } = file
     const sauce = JSON.parse(body.sauce)
     const { name, manufacturer, description, mainPepper, heat, userId } = sauce
-// fonction makeImageUrl pour la récupération de l'image plus sont nom
-   
+
 // liste des différents produits 
 const product = new Product({
     userId: userId,
@@ -137,63 +121,62 @@ const product = new Product({
     usersDisliked : []
 })
 // enregistrement du produit
-product
-.save()
+    product
+   .save()
 
-.then((message) => res.status(201).send({message}))
-// utilise .catch pour me renvoyer une erreur en cas de problème
-.catch((err) => res.status(500).send({message: err }))
+   .then((message) => res.status(201).send({message}))
+   .catch((err) => res.status(500).send({message: err }
+    ))
 }
-//*************************************************************************************************
+
 // function likeSauces
-//-*******************************************************************************************************
 function likeSauces(req, res){
-const {like, userId} = req.body
-if(![1, -1, 0].includes(like)) return res.status(403).send({message: "Ivalide like value"})
+    const {like, userId} = req.body
+    if(![1, -1, 0].includes(like)) return res.status(403).send({message: "Ivalide like value"})
 // fonction getSauce qui recoi le produit depuis la base de donnee et va lancee le updatevote dessus
-getSauce(req, res)
+    getSauce(req, res)
 //le updateVote va regader si le like = [1, -1 ou 0]
-.then((product) => updateVote( product, like, userId ))
-.then(prod => prod.save())
-.then(piquant => sendClientResponse(piquant, res))
-.catch((err) => res.status(500).send(err))
+    .then((product) => updateVote( product, like, userId ))
+    .then(prod => prod.save())
+    .then(piquant => sendClientResponse(piquant, res))
+    .catch((err) => res.status(500).send(err))
 }
-// function updateVote()
+
 function updateVote(product, like, userId, res){
-if(like === 1 || like === -1) return incrementLikeVo(product, userId, like)
-return resetVote(product, userId, res)
+    if(like === 1 || like === -1) return incrementLikeVo(product, userId, like)
+    return resetVote(product, userId, res)
 }
-// function resetVote
+
 function resetVote(product, userId, res){
-const {usersLiked, usersDisliked} = product
-if ([usersLiked, usersDisliked].every((arr) => arr.includes(userId))) return promises.reject("User has seems to have voted both ways")
+    const {usersLiked, usersDisliked} = product
+    if ([usersLiked, usersDisliked].every((arr) => arr.includes(userId))) return promises.reject("User has seems to have voted both ways")
 
-if (![usersLiked, usersDisliked].some((arr) => arr.includes(userId))) return promises.reject({message: "User seems don't have voted"})
+    if (![usersLiked, usersDisliked].some((arr) => arr.includes(userId))) return promises.reject({message: "User seems don't have voted"})
 
-usersLiked.includes(userId) ? --product.likes : --product.dislikes 
+    usersLiked.includes(userId) ? --product.likes : --product.dislikes 
 
-if(usersLiked.includes(userId)) {
+    if(usersLiked.includes(userId)) {
     product.usersLiked = product.usersLiked.filter(id => id !== userId)
-}else{
- product.usersDisliked = product.usersDisliked.filter(id => id !== userId)
+    }else{
+    product.usersDisliked = product.usersDisliked.filter(id => id !== userId)
 }
-console.log("RESET VOTE AFTER", product)
-return product
+    console.log("RESET VOTE AFTER", product)
+    return product
 }
-// function incrementLikevo()
+
 function incrementLikeVo(product, userId, like) {
-  const {usersLiked, usersDisliked} = product
+    const {usersLiked, usersDisliked} = product
 
-  const votersArray = like === 1 ? usersLiked : usersDisliked
-  if (votersArray.includes(userId)) return product
-  votersArray.push(userId)
+    const votersArray = like === 1 ? usersLiked : usersDisliked
+    if (votersArray.includes(userId)) return product
+    votersArray.push(userId)
 
- if(like === 1 ) {
-  ++product.likes
- } else {
-++product.dislikes
+    if(like === 1 ) {
+    ++product.likes
+    } else {
+    ++product.dislikes
  }
-  return product
+    return product
  }
 
 module.exports = { getSauces, createSauces, getSauceById, deleteSauce, modifySauce, likeSauces}
