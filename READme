@@ -1,19 +1,19 @@
 /* 
-API du projet P6 openclassrooms */
+API du projet P6 openclassrooms 
+*/
 
-/*
-pour l'installation des # packages de node.js il faut :
-
+/* 
 npm i ou install 
 
-/*
+ Accédez à http://localhost:4200/.
+ 
+
+port 3000
+
 pour faire tourner le backend on tape:
 
 nodemon app.js
-*/
 
-/* lien du site
-http://localhost:4200/sauces
 */
 
 /*
