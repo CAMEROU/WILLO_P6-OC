@@ -2,6 +2,7 @@ const {User} = require("../mongo")
 //Importation du package de bcrypt
 const bcrypt = require("bcrypt")
 // Importation du package de jsonwebtoken
+
 const jwt = require("jsonwebtoken")
 
 async  function createUser(req, res) {
@@ -10,6 +11,7 @@ async  function createUser(req, res) {
 // crée un hash crypté des mots de passe de vos utilisateurs pour les 
 //enregistrer de manière sécurisée dans la base de données
     const hashedPassword = await hashPassword(password)
+
     const user = new User({email, password: hashedPassword })
     await user.save()
     res.status(201).send({message: "Utilisateur enregistre !" })
