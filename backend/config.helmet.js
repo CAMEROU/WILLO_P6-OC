@@ -15,8 +15,12 @@ app.use(
           imgSrc: ["'self'", "assets.mydomain.com"],
         },
       },
+
       crossOriginEmbedderPolicy: false,
       crossOriginResourcePolicy: false,
     })
   );
   
+  var  xss  =  requiert ( "xss" ) ; 
+var  html  =  xss ( '<script>alerte("xss");</script>' ) ; 
+consoler . journal ( html ) ;
