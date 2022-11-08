@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 //Gestion des principaux routes
 app.use( "/images", express.static(path.join(__dirname, "images")))
 app.use("/api/sauces", saucesRouter)
-app.use("/api/auth/", authRouter)
+app.use("/api/auth", authRouter)
 
 //app.get("/", (req, res)=> res.send("bonjour!"))
 // Listen to port

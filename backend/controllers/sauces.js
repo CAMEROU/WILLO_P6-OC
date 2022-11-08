@@ -1,5 +1,6 @@
 const { response } = require("express")
 const mongoose = require("mongoose")
+const xss = require("xss");
 // (fs: file system), fontion de suppression des images du dossier
 const {unlink} = require("fs/promises")
 const productSchema = new mongoose.Schema({
@@ -111,7 +112,7 @@ const product = new Product({
     userId: userId,
     name: name,
     manufacturer: manufacturer,
-    description: description,
+    description: xss(description),
     mainPepper: mainPepper,
     imageUrl: makeImageUrl(req, filename),
     heat: heat,

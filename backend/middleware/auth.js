@@ -1,6 +1,6 @@
 //IMPORTATION DU JWT
 const jwt = require("jsonwebtoken")
-function tiketUser(req, res, next){  
+function authUser(req, res, next){  
     const header = req.header("Authorization")
     if (header == null) return res.status(403).send({message: "Pas valide"})   
     const token = header.split(" ")[1]   
@@ -10,4 +10,4 @@ function tiketUser(req, res, next){
     next()
      })
     }
-module.exports = {tiketUser}
+module.exports = { authUser }

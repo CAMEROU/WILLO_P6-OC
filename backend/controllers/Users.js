@@ -1,18 +1,19 @@
-   const {User} = require("../mongo")
-//Importation du package de bcrypt
-   const bcrypt = require("bcrypt")
-// Importation du package de jsonwebtoken
-    const jwt = require("jsonwebtoken")
-
+  const {User} = require("../mongo")
+   //Importation du package de bcrypt
+  const bcrypt = require("bcrypt")
+  // Importation du package de jsonwebtoken
+  const jwt = require("jsonwebtoken")
+  const mailRegex = require("../mailRegex")
 async  function createUser(req, res) {
     try{
       const {email, password} = req.body
-      if (!password || password.length === '') return res.status(400)
-     .send({message: "votre mot de passe doit être défini" })
-      if (password.length < 8) return  res.status(400)
-      .send({message: "votre mot de passe doit contenir au minimum 8 caractères" })
-// crée un hash crypté des mots de passe de vos utilisateurs pour les 
-//enregistrer de manière sécurisée dans la base de données
+      if (!email || email.length === 0) return res.status(400).send({message: "votre addresse e-mail doit être bien défini" })
+      if (!email.match(mailRegex))
+      mailRegex = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm
+      if (!email || email.length === 0) return res.status(400).send({message: "votre addresse e-mail doit être bien défini" })
+      if (!password || password.length === 0) return res.status(400).send({message: "votre mot de passe doit être défini" })
+      if (password.length < 8) return  res.status(400).send({message: "votre mot de passe doit contenir au minimum 8 caractères" })
+
     const hashedPassword = await hashPassword(password)
     const user = new User({email, password: hashedPassword })
     await user.save()
@@ -20,7 +21,7 @@ async  function createUser(req, res) {
     }catch (err){
     res.status(409).send({message: "User non enregistre : " + err })}
 }
- 
+
 function hashPassword(password) {
     const saltRounds = 10
     return bcrypt.hash(password, saltRounds)
@@ -32,8 +33,6 @@ async function logUser(req, res) {
   const email = req.body.email
   const password = req.body.password
   const user = await User.findOne({email: email })
-//utilisons isPasswordOK  pour comparer le mot de 
-//passe entré par l'utilisateur avec le hash enregistré dans la base de données
   const isPasswordOK = await bcrypt.compare(password, user.password)
     if (!isPasswordOK ){
     res.status(403).send({ message: "pas enregistré" })
@@ -57,38 +56,3 @@ function createTokent(email){
 }
 
 module.exports = {createUser, logUser }
-
-
-
-/*const validator = require("validator");
-
-createUser = (req, res, next) => {
-  const validePassword = passwordSchema.validate(req.body.password);
-  if (validePassword === true) {
-    bcrypt
-      .hash(req.body.password, 10)
-      .then((hash) => {
-        db.User.create({
-          password: hash
-          image: `${req.protocol}://${req.get(
-            "host"
-          )}/images/defaut/imagedefaut.png`,
-          moderateur: false,
-          date_deco: '1978-10-31 15:45:00'
-        })
-          .then(() =>
-            res
-              .status(201)
-              .json({ message: "User created (FR)Utilisateur créé !" })
-          )
-          .catch((error) =>
-            res
-              .status(400)
-              .json({ error })
-          );
-      })
-      .catch((error) => res.status(400).json({ error }));
-  } else {
-    res.status(500).json({ error: "mot de passe invalide" });
-  }
-};*/

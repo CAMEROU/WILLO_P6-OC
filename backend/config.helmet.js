@@ -21,6 +21,4 @@ app.use(
     })
   );
   
-  var  xss  =  requiert ( "xss" ) ; 
-var  html  =  xss ( '<script>alerte("xss");</script>' ) ; 
-consoler . journal ( html ) ;
+  
