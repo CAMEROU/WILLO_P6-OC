@@ -3,14 +3,14 @@
   const bcrypt = require("bcrypt")
   // Importation du package de jsonwebtoken
   const jwt = require("jsonwebtoken")
-  const mailRegex = require("../mailRegex")
+ const mailRegex = require("../mailRegex")
+
 async  function createUser(req, res) {
     try{
       const {email, password} = req.body
-      if (!email || email.length === 0) return res.status(400).send({message: "votre addresse e-mail doit être bien défini" })
-      if (!email.match(mailRegex))
-      mailRegex = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm
-      if (!email || email.length === 0) return res.status(400).send({message: "votre addresse e-mail doit être bien défini" })
+      if (!email || email.length === 0) return res.status(400).send({message: "votre  e-mail doit être  défini" })
+      if (!email.match(mailRegex)) return res.status(400).send({message: "votre email n'est pas au bon format" })
+      if(!email || email.length === 0) return res.status(400).send({message: "votre e-mail doit être défini" })
       if (!password || password.length === 0) return res.status(400).send({message: "votre mot de passe doit être défini" })
       if (password.length < 8) return  res.status(400).send({message: "votre mot de passe doit contenir au minimum 8 caractères" })
 
